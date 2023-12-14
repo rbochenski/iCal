@@ -62,5 +62,8 @@ class CalendarFactory
             /* @see http://msdn.microsoft.com/en-us/library/ee178699(v=exchg.80).aspx */
             yield new Property('X-PUBLISHED-TTL', new DurationValue($publishedTTL));
         }
+        if (($name = $calendar->getName())) {
+            yield new Property('X-WR-CALNAME', new TextValue($name));
+        }
     }
 }

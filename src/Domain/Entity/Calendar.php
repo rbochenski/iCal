@@ -23,6 +23,7 @@ class Calendar
     private string $productIdentifier = '-//eluceo/ical//2.0/EN';
 
     private ?DateInterval $publishedTTL = null;
+    private ?string $name = null;
 
     private Events $events;
 
@@ -57,6 +58,17 @@ class Calendar
         }
 
         throw new InvalidArgumentException('$events must be an array, an object implementing Iterator or an instance of Events.');
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
     }
 
     public function getPublishedTTL(): ?DateInterval
