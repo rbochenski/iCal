@@ -3,7 +3,7 @@
 /*
  * This file is part of the eluceo/iCal package.
  *
- * (c) 2023 Markus Poerschke <markus@poerschke.nrw>
+ * (c) 2024 Markus Poerschke <markus@poerschke.nrw>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -46,7 +46,7 @@ class EventFactory
     private DateTimeFactory $dateTimeFactory;
     private AttendeeFactory $attendeeFactory;
 
-    public function __construct(?AlarmFactory $alarmFactory = null, ?DateTimeFactory $dateTimeFactory = null, ?AttendeeFactory $attendeeFactory = null)
+    public function __construct(AlarmFactory $alarmFactory = null, DateTimeFactory $dateTimeFactory = null, AttendeeFactory $attendeeFactory = null)
     {
         $this->alarmFactory = $alarmFactory ?? new AlarmFactory();
         $this->dateTimeFactory = $dateTimeFactory ?? new DateTimeFactory();
@@ -74,6 +74,7 @@ class EventFactory
 
     /**
      * @return Generator<Property>
+     *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */

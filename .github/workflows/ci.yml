@@ -16,6 +16,7 @@ jobs:
           - "8.0"
           - "8.1"
           - "8.2"
+          - "8.3"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v4"
@@ -35,16 +36,18 @@ jobs:
           path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
           key: "php-${{ matrix.php-version }}-composer-cache"
 
-      - name: "Update Packages for PHP 8.0"
-        if: ${{ matrix.php-version == '8.0' }}
-        run: "composer up --prefer-lowest ocramius/package-versions symfony/*"
-
-      - name: "Update Packages for PHP 7.4"
-        if: ${{ matrix.php-version == '7.4' }}
+      - name: "Install lowest available packages for PHP 7.4 and 8.0"
+        if: ${{ matrix.php-version == '7.4' || matrix.php-version == '8.0' || matrix.php-version == '8.1' }}
         run: "composer up --prefer-lowest"
 
+      - name: "Run tests (old PHP versions)"
+        if: ${{ matrix.php-version == '7.4' || matrix.php-version == '8.0' || matrix.php-version == '8.1' }}
+        run: "PHPUNIT_FLAGS=--no-coverage make test-phpunit test-psalm test-examples"
+
       - name: "Run tests"
+        if: ${{ matrix.php-version == '8.2' || matrix.php-version == '8.3' }}
         run: "make -j -O test"
 
       - name: "Send code coverage"
+        if: ${{ matrix.php-version == '8.3' }}
         uses: codecov/codecov-action@v3.1.4
